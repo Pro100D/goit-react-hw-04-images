@@ -42,7 +42,6 @@ export const App = () => {
       })
       .catch(error => console.log(error.massage))
       .finally(() => setIsLoad(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, searchValue]);
 
   const handleSubmit = value => {
