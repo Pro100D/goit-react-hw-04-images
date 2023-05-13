@@ -18,6 +18,7 @@ export const App = () => {
   const [modalImg, setModalImg] = useState('');
   const [modalAlt, setModalAlt] = useState('');
   const [showBtn, setShowBtn] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!searchValue) {
@@ -37,10 +38,13 @@ export const App = () => {
           tags: hit.tags,
         }));
 
-        setImages([...images, ...responseHits]);
+        setImages(prevState => [...prevState, ...responseHits]);
         setShowBtn(page < Math.ceil(response.totalHits / 12));
       })
-      .catch(error => console.log(error.massage))
+      .catch(error => {
+        console.log(error.massage);
+        setError(error.massage);
+      })
       .finally(() => setIsLoad(false));
   }, [page, searchValue]);
 
@@ -75,6 +79,7 @@ export const App = () => {
 
   return (
     <>
+      {error && <p>Oops there was a problem :(</p>}
       <SearchBar onSubmit={handleSubmit} />
       {isLoad && <Loader />}
       <Gallary arrayImage={images} onImgClick={handleImageClick} />
